@@ -1,18 +1,23 @@
-import { tableAnatomy as parts } from "@chakra-ui/anatomy"
+import { tableAnatomy as parts } from "@chakra-ui/anatomy";
 import {
   createMultiStyleConfigHelpers,
   defineStyle,
-} from "@chakra-ui/styled-system"
-import { mode } from "@chakra-ui/theme-tools"
+} from "@chakra-ui/styled-system";
+import { mode } from "@chakra-ui/theme-tools";
 
 const { defineMultiStyleConfig, definePartsStyle } =
-  createMultiStyleConfigHelpers(parts.keys)
+  createMultiStyleConfigHelpers(parts.keys);
 
 const baseStyle = definePartsStyle({
   table: {
     fontVariantNumeric: "lining-nums tabular-nums",
     borderCollapse: "collapse",
     width: "full",
+  },
+  thead: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
   },
   th: {
     fontFamily: "heading",
@@ -30,27 +35,41 @@ const baseStyle = definePartsStyle({
     textAlign: "center",
     fontWeight: "medium",
   },
-})
+});
 
 const numericStyles = defineStyle({
   "&[data-is-numeric=true]": {
     textAlign: "end",
   },
-})
+});
 
 const variantSimple = definePartsStyle((props) => {
-  const { colorScheme: c } = props
+  const { colorScheme: c } = props;
 
   return {
+    thead: {
+      bg: "white",
+    },
     th: {
-      color: mode("gray.600", "gray.400")(props),
+      p: "10px",
+      color: " #A3AED0",
       borderBottom: "1px",
       borderColor: mode(`${c}.100`, `${c}.700`)(props),
       ...numericStyles,
     },
+    tbody: {
+      tr: {
+        "&:first-child": {
+          td: {
+            pt: "20px",
+          },
+        },
+      },
+    },
     td: {
-      borderBottom: "1px",
-      borderColor: mode(`${c}.100`, `${c}.700`)(props),
+      p: "10px",
+      borderBottom: "none",
+      // borderColor: mode(`${c}.100`, `${c}.700`)(props),
       ...numericStyles,
     },
     caption: {
@@ -63,11 +82,11 @@ const variantSimple = definePartsStyle((props) => {
         },
       },
     },
-  }
-})
+  };
+});
 
 const variantStripe = definePartsStyle((props) => {
-  const { colorScheme: c } = props
+  const { colorScheme: c } = props;
 
   return {
     th: {
@@ -104,14 +123,14 @@ const variantStripe = definePartsStyle((props) => {
         },
       },
     },
-  }
-})
+  };
+});
 
 const variants = {
   simple: variantSimple,
   striped: variantStripe,
   unstyled: defineStyle({}),
-}
+};
 
 const sizes = {
   sm: definePartsStyle({
@@ -169,7 +188,7 @@ const sizes = {
       fontSize: "md",
     },
   }),
-}
+};
 
 export const tableTheme = defineMultiStyleConfig({
   baseStyle,
@@ -180,4 +199,4 @@ export const tableTheme = defineMultiStyleConfig({
     size: "md",
     colorScheme: "gray",
   },
-})
+});
